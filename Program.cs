@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Numerics;
+using System;
 
 namespace Lab2
 {
@@ -36,19 +37,13 @@ namespace Lab2
     }
     class Vect : Arr {
         public override void input () {
-            int [] vectorr = new int [n];
+            
+            int [] vectorik = new int [n];
             Console.Write("Введите вектор...");
-            Console.WriteLine();
-            for (int i = 0; i < vectorr.GetLength(0); i++){
-                string enteredSt = Console.ReadLine();
-                string [] stringArr = enteredSt.Split(new Char[] { ' ' });
-                for(int j = 0; j < stringArr.Length; j++){
-                    vectorr[i] = int.Parse(stringArr[j]);
-                }
-            }
-            foreach(int num in vectorr){
-                Console.Write(vectorr[num]);
-
+            int i = 0;
+            while(i < n) {
+                vectorik [i] = int.Parse(Console.ReadLine());
+                i++;
             }
         }
     }
