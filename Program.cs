@@ -1,60 +1,77 @@
-﻿using System.Numerics;
-using System;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+ 
 namespace Lab2
 {
-    class Arr{
-        protected int m;
-        protected int n;
-        public virtual void input(){
-
+    public class Matrix
+    {
+        double[,] matrix;
+ 
+        public int Row { get; protected set; }
+        public int Column { get; protected set; }
+ 
+        public Matrix(int row, int column)
+        {
+            Row = row;
+            Column = column;
+            matrix = new double[row, column];
         }
-    }
-    class Matr : Arr{
-        public override void input() {
-            Console.Write("Введите размер матрици...");
-            Console.WriteLine();
-            n = int.Parse(Console.ReadLine());
-            m = int.Parse(Console.ReadLine());
-            int [,] matrix = new int [n, m];
-            Console.WriteLine();
-            for (int i = 0; i < matrix.GetLength(0); i++){
-                string enteredSt = Console.ReadLine();
-                string [] stringArr = enteredSt.Split(new Char[] { ' ' });
-                for(int j = 0; j < stringArr.Length; j++){
-                    matrix[i, j] = int.Parse(stringArr[j]);
+ 
+        public Matrix Multiple(Matrix value)
+        {
+            Matrix result = new Matrix(Row, value.Column);
+            for (int i = 0; i < Row; i++)
+                for (int j = 0; j < value.Column; j++)
+                    for (int k = 0; k < value.Row; k++)
+                        result.matrix[i, j] += matrix[i, k] * value.matrix[k, j];
+            return result;
+        }
+ 
+        public void Read()
+        {
+            for (int i = 0; i < Row;i++ )
+                for (int j = 0; j < Column; j++)
+                {
+                    Console.Write("Введите элемент [{0},{1}]: ", i+1, j+1);
+                    matrix[i, j] = System.Convert.ToDouble(Console.ReadLine());
                 }
-            }
-            // Console.Write("Matrix is...");
-           // for(int i = 0; i < n; i++) {
-             //   for(int j = 0; j < m; j++){
-               //     Console.Write(matrix[i, j]);
-                 //   Console.WriteLine();
-                //}
-            //}
         }
-
-    }
-    class Vect : Arr {
-        public override void input () {
-            
-            int [] vectorik = new int [n];
-            Console.Write("Введите вектор...");
-            int i = 0;
-            while(i < n) {
-                vectorik [i] = int.Parse(Console.ReadLine());
-                i++;
+ 
+        public void Print()
+        {
+            for (int i=0; i<Row; i++)
+            {
+                for (int j = 0; j < Column; j++)
+                    Console.Write("{0:f2} ", matrix[i, j]);
+                Console.WriteLine();
             }
         }
     }
+ 
     class Program
     {
+ 
         static void Main(string[] args)
         {
-            Matr a = new Matr();
-            a.input();
-            Vect b = new Vect();
-            b.input();
+            Matrix vector = new Matrix(1, 4);
+            Matrix matrix = new Matrix(4, 4);
+            Console.Clear();
+            Console.WriteLine("Ввод вектора");
+            vector.Read();
+            Console.WriteLine("\nВвод матрицы");
+            matrix.Read();
+            Console.Clear();
+            Matrix result = vector.Multiple(matrix);
+            Console.WriteLine("Вектор");
+            vector.Print();
+            Console.WriteLine("\nМатрица");
+            matrix.Print();
+            Console.WriteLine("\nРезультат умножения матрицы на вектор");
+            result.Print();
+            Console.WriteLine("\nНажмите любую клавишу для выхода из программы");
+            Console.ReadKey(true);
         }
     }
 }
